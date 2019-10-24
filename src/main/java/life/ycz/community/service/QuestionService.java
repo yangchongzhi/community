@@ -1,5 +1,6 @@
 package life.ycz.community.service;
 
+import life.ycz.community.dto.PaginationDTO;
 import life.ycz.community.dto.QuestionDTO;
 import life.ycz.community.mapper.QuestionMapper;
 import life.ycz.community.mapper.UserMapper;
@@ -20,10 +21,20 @@ public class QuestionService {
     @Autowired
     UserMapper userMapper;
 
-    public List<QuestionDTO> list(){
+    public PaginationDTO list(Integer page, Integer size){
         List<QuestionDTO> questionDTOList = new ArrayList<>();
         List<Question> questionList;
-        questionList = questionMapper.list();
+        PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalCount = questionMapper.questionCount();
+        paginationDTO.setPagination(totalCount,page,size);
+        if(page<1){
+            page = 1;
+        }
+        if(page>paginationDTO.getTotalPage()){
+            page = paginationDTO.getTotalPage();
+        }
+        Integer offset = size*(page-1);
+        questionList = questionMapper.list(offset, size);
         for (Question question:questionList) {
             User user = userMapper.findById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
@@ -31,6 +42,7 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        return questionDTOList;
+        paginationDTO.setQuestionDTOList(questionDTOList);
+        return paginationDTO;
     }
 }

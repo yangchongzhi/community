@@ -1,6 +1,8 @@
 package life.ycz.community.controller;
 
+import life.ycz.community.dto.PaginationDTO;
 import life.ycz.community.dto.QuestionDTO;
+import life.ycz.community.mapper.QuestionMapper;
 import life.ycz.community.mapper.UserMapper;
 import life.ycz.community.model.User;
 import life.ycz.community.service.QuestionService;
@@ -21,10 +23,14 @@ public class IndexController {
     UserMapper userMapper;
     @Autowired
     QuestionService questionService;
+    @Autowired
+    QuestionMapper questionMapper;
 
     @GetMapping("/")
     public String hello(HttpServletRequest request,
-                        Model model){
+                        Model model,
+                        @RequestParam(name = "page",defaultValue = "1") Integer page,
+                        @RequestParam(name = "size",defaultValue = "2") Integer size){
         Cookie[] cookies = request.getCookies();
         if (cookies!=null){
             for (int i = 0; i < cookies.length; i++) {
@@ -37,8 +43,8 @@ public class IndexController {
                 }
             }
         }
-        List<QuestionDTO> questionDTOList = questionService.list();
-        model.addAttribute("questions", questionDTOList);
+        PaginationDTO paginationDTO = questionService.list(page,size);
+        model.addAttribute("pagination", paginationDTO);
         return "index";
     }
 
