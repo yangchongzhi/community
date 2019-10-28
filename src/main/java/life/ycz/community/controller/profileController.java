@@ -28,18 +28,9 @@ public class profileController {
                           @RequestParam(name = "size",defaultValue = "5") Integer size,
                           HttpServletRequest request,
                           Model model){
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies!=null){
-            for(Cookie cookie:cookies){
-                if(cookie.getName().equals("token")){
-                    user = userMapper.findByToken(cookie.getValue());
-                    if(user!=null){
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
+        User user = (User)request.getSession().getAttribute("user");
+        if (user==null){
+            return "redirect:/";
         }
         if("question".equals(action)){
             model.addAttribute("section", "question");

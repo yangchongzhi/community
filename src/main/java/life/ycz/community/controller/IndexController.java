@@ -27,25 +27,11 @@ public class IndexController {
     QuestionMapper questionMapper;
 
     @GetMapping("/")
-    public String hello(HttpServletRequest request,
-                        Model model,
+    public String hello(Model model,
                         @RequestParam(name = "page",defaultValue = "1") Integer page,
                         @RequestParam(name = "size",defaultValue = "5") Integer size){
-        Cookie[] cookies = request.getCookies();
-        if (cookies!=null){
-            for (int i = 0; i < cookies.length; i++) {
-                if (cookies[i].getName().equals("token")){
-                    User user = userMapper.findByToken(cookies[i].getValue());
-                    if (user != null){
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
         PaginationDTO paginationDTO = questionService.list(page,size);
         model.addAttribute("pagination", paginationDTO);
         return "index";
     }
-
 }
