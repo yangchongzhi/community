@@ -24,4 +24,7 @@ public interface QuestionMapper {
 
     @Select("select * from question where creator =#{userId} limit #{offset},#{size}")
     List<Question> listById(@Param("userId") Integer userId,@Param("offset") Integer offset, @Param("size") Integer size);
+
+    @Select("select * from question where id = #{id}")
+    Question getQuestionById(@Param("id") Integer id);
 }
