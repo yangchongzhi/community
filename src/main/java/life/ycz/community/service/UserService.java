@@ -13,8 +13,11 @@ public class UserService {
     public void addOrUpdate(User user) {
         User  dbUser = userMapper.findByAccountId(user.getAccountId());
         if(dbUser!=null){
+            user.setGmtModified(System.currentTimeMillis());
             userMapper.update(user);
         }else{
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
         }
     }
