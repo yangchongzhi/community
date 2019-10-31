@@ -1,7 +1,6 @@
 package life.ycz.community.controller;
 
 import life.ycz.community.dto.QuestionDTO;
-import life.ycz.community.mapper.QuestionMapper;
 import life.ycz.community.mapper.UserMapper;
 import life.ycz.community.model.Question;
 import life.ycz.community.model.User;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
