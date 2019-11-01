@@ -2,23 +2,22 @@ package life.ycz.community.controller;
 
 public class Test {
     public static void main(String[] args) {
-        B b = new B();
-        b.setMessage(null);
-        System.out.println(b.getMessage());
+        System.out.println(A.QUESTION);
     }
 }
-interface A{
-    String message = "aaaaaa";
-}
-
-class B implements A{
-    private  String message;
+enum  A{
+    QUESTION("QQQQQQQ");
+    private String message;
+    A(String message) {
+        this.message = message;
+    }
 
     public String getMessage() {
         return message;
     }
+}
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+enum Day {
+    MONDAY, TUESDAY, WEDNESDAY,
+    THURSDAY, FRIDAY, SATURDAY, SUNDAY
 }

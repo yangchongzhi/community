@@ -4,6 +4,7 @@ import life.ycz.community.dto.PaginationDTO;
 import life.ycz.community.dto.QuestionDTO;
 import life.ycz.community.exception.CustomizeErrorCode;
 import life.ycz.community.exception.CustomizeException;
+import life.ycz.community.mapper.QuestionExtMapper;
 import life.ycz.community.mapper.QuestionMapper;
 import life.ycz.community.mapper.UserMapper;
 import life.ycz.community.model.Question;
@@ -24,6 +25,9 @@ public class QuestionService {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    QuestionExtMapper questionExtMapper;
 
     public PaginationDTO list(Integer page, Integer size){
         List<QuestionDTO> questionDTOList = new ArrayList<>();
@@ -114,5 +118,12 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }
